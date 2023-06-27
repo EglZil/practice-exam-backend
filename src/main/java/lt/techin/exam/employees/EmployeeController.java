@@ -1,5 +1,6 @@
 package lt.techin.exam.employees;
 
+import lt.techin.exam.ratings.RatingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -20,8 +21,11 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeService employeeService) {
+    private final RatingService ratingService;
+
+    public EmployeeController(EmployeeService employeeService, RatingService ratingService) {
         this.employeeService = employeeService;
+        this.ratingService = ratingService;
     }
 
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -56,5 +60,9 @@ public class EmployeeController {
         return ok(isDeleted);
     }
 
-
+    @GetMapping(value = "ratings/{employeeId}")
+    public ResponseEntity<Double> getEmployeeRating(@PathVariable Long employeeId){
+        Double ratingAverage = ratingService.getRatingByEmployee(employeeId);
+        return ok(ratingAverage);
+    }
 }
