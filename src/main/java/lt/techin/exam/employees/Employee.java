@@ -3,6 +3,8 @@ package lt.techin.exam.employees;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lt.techin.exam.services.CarService;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -26,6 +28,7 @@ public class Employee {
 
     @ManyToOne
     @JoinColumn(name = "carService_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private CarService carService;
 
     @CreatedDate

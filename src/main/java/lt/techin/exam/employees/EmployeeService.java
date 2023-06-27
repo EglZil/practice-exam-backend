@@ -1,5 +1,6 @@
 package lt.techin.exam.employees;
 
+import lt.techin.exam.services.CarServiceRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +10,12 @@ import java.util.Optional;
 @Service
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
+    private final CarServiceRepository carServiceRepository;
 
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository,
+                           CarServiceRepository carServiceRepository) {
         this.employeeRepository = employeeRepository;
+        this.carServiceRepository = carServiceRepository;
     }
 
     public List<Employee> getAll() {
@@ -46,5 +50,9 @@ public class EmployeeService {
         existingEmployee.setCarService(employee.getCarService());
 
         return employeeRepository.save(existingEmployee);
+    }
+
+    public List<Employee> getAllByCarServiceId(Long carServiceId) {
+        return employeeRepository.findEmployeesByCarServiceId(carServiceId);
     }
 }

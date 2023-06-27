@@ -1,11 +1,14 @@
 package lt.techin.exam.services;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lt.techin.exam.employees.Employee;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 public class CarService {
@@ -16,6 +19,10 @@ public class CarService {
     private String name;
 
     private String address;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "carService", cascade = CascadeType.ALL)
+    private Set<Employee> employees;
 
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -77,5 +84,13 @@ public class CarService {
 
     public void setModifiedDate(LocalDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
+    }
+
+    public Set<Employee> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<Employee> employees) {
+        this.employees = employees;
     }
 }
